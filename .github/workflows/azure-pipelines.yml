@@ -20,3 +20,8 @@ jobs:
           az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.SECRET_ID }} --tenant ${{ secrets.TENANT_ID }}
           az account set --subscription ${{ secrets.SUBSCRIPTION_ID }}
           az account show
+
+    - name: Fetch secret from Key Vault
+      run: |
+        secret_value=$(az keyvault secret show --name "sp-secret-name" --vault-name "kv-test-tb" --query value -o tsv)
+        echo "Secret fetched from Key Vault: $secret_value"
