@@ -12,20 +12,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.SECRET_ID }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+    - name: Set up Azure CLI
+      uses: azure/setup-azure-cli@v1
 
-    # - name: Get secret from Key Vault
-    #   uses: azure/get-keyvault-secrets@v1
-    #   with:
-    #     keyvault: 'kv-test-tb'
-    #     secrets: 'sp-secret-name'
-    #   id: getsecret
+    - name: Login to Azure using Service Principal
+      run: |
+        az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.SECRET_ID }} --tenant ${{ secrets.TENANT_ID }}
 
-    # - name: Use the secret
-    #   run: echo "Le secret est ${{ steps.getsecret.outputs.sp-secret-name }}"
+    - name: Set Azure Subscription
+      run: |
+        az account set --subscription ${{ secrets.SUBSCRIPTION_ID }}
+
+    - name: Verify Azure Connection
+      run: |
+        az account show
