@@ -4,6 +4,7 @@ on: push
 jobs:
   retrieve-secret:
     runs-on: ubuntu-latest
+    environment: Devlopement
 
     steps:
     - name: Checkout code
