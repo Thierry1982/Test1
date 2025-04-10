@@ -14,15 +14,9 @@ jobs:
 
     - name: Set up Azure CLI
       uses: azure/cli@v2
-
-    - name: Login to Azure using Service Principal
-      run: |
-        az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.SECRET_ID }} --tenant ${{ secrets.TENANT_ID }}
-
-    - name: Set Azure Subscription
-      run: |
-        az account set --subscription ${{ secrets.SUBSCRIPTION_ID }}
-
-    - name: Verify Azure Connection
-      run: |
-        az account show
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.SECRET_ID }} --tenant ${{ secrets.TENANT_ID }}
+          az account set --subscription ${{ secrets.SUBSCRIPTION_ID }}
+          az account show
