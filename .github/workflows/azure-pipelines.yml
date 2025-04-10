@@ -1,5 +1,7 @@
 name: Deploy on Push
 on: push
+permissions:
+  id-token: write
 
 jobs:
   retrieve-secret:
