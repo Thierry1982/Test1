@@ -1,5 +1,5 @@
-- name: Deploy on Push
-  on: push
+name: Deploy on Push
+on: push
 
 - name: Azure Login
   uses: azure/login@v1
