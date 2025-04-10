@@ -1,19 +1,16 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+- name: Azure Login
+  uses: azure/login@v1
+  with:
+    client-id: ${{ secrets.CLIENT_ID }}
+    tenant-id: ${{ secrets.TENANT_ID }}
+    subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
 
-trigger:
-- Test
+- name: Get secret from Key Vault
+  uses: azure/get-keyvault-secrets@v1
+  with:
+    keyvault: 'kv-test-tb'
+    secrets: 'sp-secret-name'
+  id: getsecret
 
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- name: Use the secret
+  run: echo "Le secret est ${{ steps.getsecret.outputs.sp-secret-name }}"
