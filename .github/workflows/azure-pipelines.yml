@@ -1,19 +1,27 @@
 name: Deploy on Push
 on: push
 
-- name: Azure Login
-  uses: azure/login@v1
-  with:
-    client-id: ${{ secrets.CLIENT_ID }}
-    tenant-id: ${{ secrets.TENANT_ID }}
-    subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+jobs:
+  retrieve-secret:
+    runs-on: ubuntu-latest
 
-- name: Get secret from Key Vault
-  uses: azure/get-keyvault-secrets@v1
-  with:
-    keyvault: 'kv-test-tb'
-    secrets: 'sp-secret-name'
-  id: getsecret
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-- name: Use the secret
-  run: echo "Le secret est ${{ steps.getsecret.outputs.sp-secret-name }}"
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.CLIENT_ID }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+
+    - name: Get secret from Key Vault
+      uses: azure/get-keyvault-secrets@v1
+      with:
+        keyvault: 'kv-test-tb'
+        secrets: 'sp-secret-name'
+      id: getsecret
+
+    - name: Use the secret
+      run: echo "Le secret est ${{ steps.getsecret.outputs.sp-secret-name }}"
