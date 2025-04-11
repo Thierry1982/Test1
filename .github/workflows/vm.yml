@@ -3,9 +3,9 @@ name: Build and Deploy a VM
 on: push
 
 jobs:
-  environment: Devlopement
   build:
     runs-on: ubuntu-latest
+    environment: Devlopement
     steps:
     - uses: actions/checkout@v4
 
@@ -19,6 +19,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    environment: Devlopement
     env:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     steps:
