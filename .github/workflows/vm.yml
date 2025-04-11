@@ -3,10 +3,10 @@ name: Build and Deploy a VM
 on: push
 
 jobs:
-  env:
-    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   build:
     runs-on: ubuntu-latest
+    env:
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     environment: Devlopement
     steps:
     - uses: actions/checkout@v4
