@@ -1,6 +1,6 @@
 name: Build and Deploy a VM
 
-on: [push]
+on: push
 
 jobs:
   build:
